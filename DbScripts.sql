@@ -28,13 +28,33 @@ FOREIGN KEY (OrderId) REFERENCES Orders(OrderId)
 )
 GO
 
+--- Procedures
 Create Procedure SP_UpdateOrderStatus
 @orderId as int,
-@statusId as int
+@status as int
 As
 BEGIN
-	Update Orders Set Status=@statusId Where OrderId=@orderId;
+	Update Orders Set Status=@status Where OrderId=@orderId;
 END
+
+
+Create Procedure SP_CustomerListByHasOrder
+@hasOrder as bit
+As
+BEGIN
+	IF @hasOrder=1
+		BEGIN
+			SELECT distinct a.* from Customers a
+			INNER JOIN Orders b on b.CustomerId=a.CustomerId
+		END
+	ELSE
+		BEGIN
+			SELECT distinct a.* from Customers a
+			left JOIN Orders b on b.CustomerId=a.CustomerId
+			Where b.CustomerId IS null
+		END
+END
+
 
 
 --Scaffold-DbContext "Server=DESKTOP-T4ES0UE;Database=DemoWebAPI;User Id=sa;Password=sa1234;Integrated Security=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
@@ -45,6 +65,4 @@ END
 --{"productId":2,"quantity":1,"price":200},
 --{"productId":3,"quantity":1,"price":300}
 --]}
-
-{'Name': 'XXX', 'UnitPrice': 100, 'AvailableQuantity': 5}
 

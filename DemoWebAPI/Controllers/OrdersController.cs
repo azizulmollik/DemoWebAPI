@@ -101,15 +101,21 @@ namespace DemoWebAPI.Controllers
             return NotFound();
         }
 
-        // PUT: api/Orders/PutOrderStatus/5
-        [HttpPut("PutOrderStatus/{id}")]
-        public async Task<IActionResult> PutOrderStatus(int id, int statusId)
+        // GET: api/Orders/GetCustomerList/true
+        [HttpGet("GetCustomerList/{hasOrder}")]
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomerList(bool hasOrder)
         {
-            int i = 0;           
+            return await _repositoryWrapper.Orders.GetCustomerList(hasOrder);
+        }
 
+        // PUT: api/Orders/PutOrderStatus/5
+        [HttpPut("PutOrderStatus/{id}/{status}")]
+        public async Task<IActionResult> PutOrderStatus(int id, int status)
+        {
+            int i = 0; 
             try
             {
-                var r =await _repositoryWrapper.Orders.UpdateStatus(id, statusId);                
+                i =await _repositoryWrapper.Orders.UpdateStatus(id, status);                
             }
             catch (DbUpdateConcurrencyException)
             {

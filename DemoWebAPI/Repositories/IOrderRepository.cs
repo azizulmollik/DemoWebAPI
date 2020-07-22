@@ -13,6 +13,7 @@ namespace DemoWebAPI.Repositories
         Task Add(Order entity);
         Task Update(Order entity);
         Task<Order> Delete(int id);
+        Task<List<Customer>> GetCustomerList(bool hasOrder);
         Task<int> UpdateStatus(int id, int statusId);
     }
 }

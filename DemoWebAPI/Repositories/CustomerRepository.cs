@@ -27,10 +27,12 @@ namespace DemoWebAPI.Repositories
         }
         public async Task Add(Customer entity)
         {
+            entity.CreatedDate = DateTime.Now;
             await _context.Customers.AddAsync(entity);
         }
         public async Task Update(Customer entity)
         {
+            entity.CreatedDate = DateTime.Now;
             _context.Entry(entity).State = EntityState.Modified;
         }
         public async Task<Customer> Delete(int id)

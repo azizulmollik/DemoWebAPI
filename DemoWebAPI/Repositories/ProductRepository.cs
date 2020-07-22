@@ -19,11 +19,9 @@ namespace DemoWebAPI.Repositories
 
         public async Task<List<Product>> GetAll(bool? inStock)
         {
-            var products = _context.Products.AsQueryable();
-
             if (inStock != null) //check availability 
             {
-                products = _context.Products.Where(i => i.AvailableQuantity > 0);
+                return await _context.Products.Where(i => i.AvailableQuantity > 0).ToListAsync();               
             }
             return await _context.Products.ToListAsync();
         }

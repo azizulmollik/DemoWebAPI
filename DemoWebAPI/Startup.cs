@@ -56,6 +56,11 @@ namespace DemoWebAPI
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                 };
             });
+
+            //For FrontEnd
+            services.AddSpaStaticFiles(configuration => {
+                configuration.RootPath = "FrontEnd/dist";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,6 +82,13 @@ namespace DemoWebAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            //For FrontEnd
+            app.UseSpaStaticFiles();
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "FrontEnd";
             });
         }
     }
